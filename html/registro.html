@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Login Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="regostro.css">
+</head>
+<body>
+    
+    <div class="container" id="container">
+<div class="form-container sign-up">
+    <form id="registroForm">
+        <h1>Nueva Cuenta</h1>
+        <input type="hidden" id="userId" name="userId" value="123"> 
+        <input id="nombre" type="text" placeholder="Usuario">
+        <input id="contraseña" type="password" placeholder="Contraseña">
+        <input type="submit" onclick="enviarFormulario(); return false;"> 
+    </form>
+    <div id="response"></div>
+</div>
+
+        <div class="form-container sign-in">
+            <form id="loginForm">
+                <h1>Incia Sesión</h1>
+                
+                <input type="text" 
+                placeholder="Usuario">
+                <input type="password" 
+                placeholder="Contraseña">
+                <input type="submit"></input>
+            </form>
+            <div id="response"></div>
+            <form id="contra">
+                <input type="text">
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>¡Bienvenido!</h1>
+                    <p>Ingresa tu información</p>
+                    <button class="hidden" id="login">Inicia Sesión</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>¡Bienvenido!</h1>
+                    <p>Registra información que se te pide</p>
+                    <button class="hidden" id="register">Registrate</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="registro.js"></script>
+    <script src="registarFuncion.js"></script>
+    <script src="iniciarSesionFuncion.js"></script>
+</body>
+</html>

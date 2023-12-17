@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+
+    <title>Editar Usuario</title>
+  </head>
+  <body>
+    <div class="container">
+      <br />
+      <br />
+      <div class="row">
+        <div class="col-12">
+          <form id="editUserForm" class="needs-validation" novalidate>
+            <div class="form-group mb-3">
+              <div class="row">
+                <div class="col">
+                  <label for="name" class="fw-bold">Nombre</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="name"
+                    id="name"
+                    required
+                  />
+                  <div class="invalid-feedback">Campo Obligatorio</div>
+                </div>
+                <div class="col">
+                  <label for="lastname" class="fw-bold">Contraseña</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="lastname"
+                    id="lastname"
+                    required
+                  />
+                  <div class="invalid-feedback">Campo Obligatorio</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group mb-3">
+              <button
+                type="button"
+                class="btn btn-success"
+                onclick="guardarCambios()"
+              >
+                Guardar cambios
+              </button>
+
+              <a href="index2.html" class="btn btn-danger">Cancelar</a>
+            </div>
+            <hr
+              style="height: 2px"
+              ;
+              width:100%;
+              border-width:0;
+              color="gray;"
+              background-color:gray;
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // Script para obtener el ID del usuario, cargar datos y actualizar
+      const id_usuario = obtenerIdUsuarioDesdeURL();
+
+      function obtenerIdUsuarioDesdeURL() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("id_usuario");
+      }
+
+      window.addEventListener("DOMContentLoaded", (event) => {
+        cargarDatosUsuario();
+      });
+
+      function cargarDatosUsuario() {
+        if (!id_usuario) {
+          console.error("No se proporcionó id_usuario");
+          return;
+        }
+        fetch(`http://localhost:8080/integradora/usuario/${id_usuario}`)
+          .then((response) => response.json())
+          .then((usuario) => {
+            document.getElementById("name").value = usuario.nombre;
+            document.getElementById("lastname").value = usuario.contraseña;
+          })
+          .catch((error) =>
+            console.error("Error al cargar datos del usuario:", error.message)
+          );
+      }
+
+      function guardarCambios() {
+        const nombre = document.getElementById("name").value;
+        const contraseña = document.getElementById("lastname").value;
+
+        fetch(`http://localhost:8080/integradora/usuario/${id_usuario}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id_usuario: parseInt(id_usuario),
+            nombre: nombre,
+            contraseña: contraseña,
+          }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Error en la solicitud: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("Datos actualizados:", data);
+          })
+          .catch((error) => {
+            console.error("Error al actualizar datos:", error.message);
+          });
+      }
+    </script>
+  </body>
+</html>
